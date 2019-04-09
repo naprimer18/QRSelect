@@ -55,7 +55,7 @@ export default class Dropdown extends Component{
         focusedId: id
        }},
       () => {
-        this.props.onChange? this.props.onChange(this.state.selectedId): null;
+        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
     });
   };
 
@@ -74,7 +74,7 @@ export default class Dropdown extends Component{
       () => {
         this.props.onChange? this.props.onChange(this.state.selectedId): null;
     });
-  }
+  };
 
   selectSingleItem = (id) => {
     this.setState( previousState => {
@@ -87,33 +87,40 @@ export default class Dropdown extends Component{
       () => {
         this.props.onChange? this.props.onChange(this.state.selectedId): null;
     });
-  }
+  };
 
   toggleList = (...rest) => {
-    if( !this.state.listOpen && this.props.onOpen )
-      this.props.onOpen();
-    if ( this.state.listOpen && this.props.onClose )
-      this.props.onClose();
-
     if ( !rest.length ){
       this.setState( prevState => ({
         listOpen: !prevState.listOpen,
         focusedId: null,
         idFromWhichBeganSelection: 0
-      }));
+      }),
+          ()  => {
+            if( !this.state.listOpen && this.props.onOpen )
+              this.props.onOpen();
+            if ( this.state.listOpen && this.props.onClose )
+              this.props.onClose();
+          });
     }
     if ( rest.length !== 0 && rest[0] === "clearSelectedId" ) {
        this.setState( prevState => ({
          focusedId: prevState.focusedId,
          selectedId: [],
          idFromWhichBeganSelection: 0
-      }));
+      }),
+           () => {
+             if( !this.state.listOpen && this.props.onOpen )
+               this.props.onOpen();
+             if ( this.state.listOpen && this.props.onClose )
+               this.props.onClose();
+           });
     }
   };
 
   selectItem = (e, item) => {
-    const { isMulti } = this.props;
-    const { id } = item;
+    const { isMulti, valueKey } = this.props;
+    const id = item[valueKey];
     e.preventDefault();
 
     if (e.shiftKey && isMulti) {
@@ -186,7 +193,10 @@ export default class Dropdown extends Component{
           focusedId: previousState.focusedId,
           selectedId: [...previousState.selectedId]
         }
-      });
+      },
+          () => {
+            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+          });
       return;
     }
 
@@ -207,7 +217,10 @@ export default class Dropdown extends Component{
             focusedId: previousState.focusedId - 1,
             idFromWhichBeganSelection: previousState.focusedId - 1
           }
-      });
+      },
+          () => {
+            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+          });
       return;
     }
 
@@ -229,7 +242,10 @@ export default class Dropdown extends Component{
             focusedId: previousState.focusedId + 1,
             idFromWhichBeganSelection: previousState.focusedId + 1
           }
-      });
+      },
+          () => {
+            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+          });
       return;
     }
 
@@ -251,7 +267,10 @@ export default class Dropdown extends Component{
               selectedId: [...previousState.selectedId]
             }
         }
-      });
+      },
+          () => {
+            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+          });
       return;
     }
 
@@ -273,7 +292,10 @@ export default class Dropdown extends Component{
               selectedId: [...previousState.selectedId]
             }
         }
-      });
+      },
+          () => {
+            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+          });
     }
 
     if (e.shiftKey && e.which === keyDown && listOpen) {
@@ -300,7 +322,10 @@ export default class Dropdown extends Component{
               focusedId: focusedId + 1
             };
         }
-      });
+      },
+          () => {
+            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+          });
     }
 
     if (e.shiftKey && e.which === keyUp && listOpen) {
@@ -327,7 +352,10 @@ export default class Dropdown extends Component{
               focusedId: focusedId - 1
             };
         }
-      });
+      },
+          () => {
+            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+          });
     }
   };
 
@@ -377,7 +405,7 @@ export default class Dropdown extends Component{
       menuContainerStyle: menuContainerStyle ? menuContainerStyle : null
     };
 
-    console.log(selectedId, idFromWhichBeganSelection);
+    // console.log(selectedId, idFromWhichBeganSelection);
 
     return (
       <div

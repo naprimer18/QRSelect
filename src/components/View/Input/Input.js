@@ -3,11 +3,12 @@ import FontAwesome from 'react-fontawesome';
 
 export default class InputDropdown extends Component {
     getHeaderTitle() {
+        const { valueKey } = this.props;
         const { options, selectedId, placeHolder } = this.props;
         if (!options || !selectedId || !selectedId.length) {
             return placeHolder;
         }
-        const _item = options.find(item => item.id === selectedId[selectedId.length - 1]);
+        const _item = options.find(item => item[valueKey] === selectedId[selectedId.length - 1]);
         if (!_item) {
             return placeHolder;
         }

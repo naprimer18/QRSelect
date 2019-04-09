@@ -28,13 +28,14 @@ export default class ListDropdown extends Component {
                 ref={ ref => _listRef(ref) }
                 style={ this.getListPosition() }>  
                 {<ul className="dd-list" onClick={ e => e.stopPropagation() } >
-                    {options.filter(item => { return item.title.toLowerCase().indexOf(filterItems) >=0 }).map((item, id) => (
+                    {options.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
                         <div
                             ref={ list => { if (id === 0) _listRef(list) } }
-                            className={ ( focusedId === item.id ? "dd-list-item-on-focus" :"dd-list-item" ) + ( selectedId.includes(item.id) ? " selected-item" : "" ) }
-                            key={ item.id }
+                            className={ ( focusedId === item[valueKey] ? "dd-list-item-on-focus" :"dd-list-item" ) + ( selectedId.includes(item[valueKey]) ? " selected-item" : "" ) }
+                            key={ item[valueKey] }
                             onMouseDown={ (e) => { e.preventDefault() }}
                             onClick={ (e) => {
+                                console.log(item[valueKey]);
                                 selectItem(e, item)
                             }}
                         >
