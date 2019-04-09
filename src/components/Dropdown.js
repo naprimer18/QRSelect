@@ -361,7 +361,7 @@ export default class Dropdown extends Component{
   };
 
   filterList = (e) => {
-    this.setState({filterItems:e.target.value});
+    this.setState({filterItems:e.target.value.toLowerCase()});
   };
 
   render(){
