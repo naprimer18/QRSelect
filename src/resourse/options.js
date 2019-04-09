@@ -3,44 +3,38 @@ const fruit = [
   {
     id: 0,
     title: 'Apple',
-    selected: false,
-    key: 'fruit'
+    selected: false
   },
   {
     id: 1,
     title: 'Orange',
-    selected: false,
-    key: 'fruit'
+    selected: false
+
   },
   {
     id: 2,
     title: 'Grape',
-    selected: false,
-    key: 'fruit'
+    selected: false
   },
   {
     id: 3,
     title: 'Pomegranate',
-    selected: false,
-    key: 'fruit'
+    selected: false
   },
   {
     id: 4,
     title: 'Strawberry',
-    selected: false,
-    key: 'fruit'
+    selected: false
   },
   {
     id: 5,
     title: 'Strawberry',
-    selected: false,
-    key: 'fruit'
+    selected: false
   },
   {
     id: 6,
     title: '1',
-    selected: false,
-    key: 'fruit'
+    selected: false
   }
 ];
 

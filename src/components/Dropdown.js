@@ -55,7 +55,7 @@ export default class Dropdown extends Component{
         focusedId: id
        }},
       () => {
-        this.props.onChange(this.state.selectedId);
+        this.props.onChange? this.props.onChange(this.state.selectedId): null;
     });
   };
 
@@ -72,7 +72,7 @@ export default class Dropdown extends Component{
         focusedId: id
        }},
       () => {
-        this.props.onChange(this.state.selectedId);
+        this.props.onChange? this.props.onChange(this.state.selectedId): null;
     });
   }
 
@@ -85,7 +85,7 @@ export default class Dropdown extends Component{
         focusedId: previousState.focusedId
       }},
       () => {
-        this.props.onChange(this.state.selectedId);
+        this.props.onChange? this.props.onChange(this.state.selectedId): null;
     });
   }
 
@@ -336,11 +336,10 @@ export default class Dropdown extends Component{
   };
 
   render(){
-    const { listParent, options, placeHolder, isMulti , menuContainerStyle, className } = this.props;
+    const { listParent, options, placeHolder, isMulti , menuContainerStyle, classNameByDropdown, classNameByInput , classNameByList ,valueKey , labelKey , newOptions} = this.props;
     const { listOpen, selectedId, focusedId, filterItems, idFromWhichBeganSelection } = this.state;
 
     const inputDropdownProps = {
-      className,
       filterItems,
       options,
       listOpen,
@@ -348,11 +347,18 @@ export default class Dropdown extends Component{
       filterList: this.filterList,
       _inputRef: ref => this._inputRef = ref,
       selectedId,
-      placeHolder
+      placeHolder,
+      valueKey,
+      labelKey,
+      newOptions,
+      classNameByInput
     };
 
     const listDropdownProps = {
-      className,
+      valueKey,
+      labelKey,
+      newOptions,
+      classNameByDropdown,
       options,
       filterItems,
       listOpen,
@@ -376,7 +382,7 @@ export default class Dropdown extends Component{
     return (
       <div
           style={ menuContainerStyle ? menuContainerStyle : null}
-          className="dd-wrapper"
+          className="dd-wrapper"  /*className={classNameByDropdown ? classNameByDropdown : "dd-wrapper"}*/
           onFocus={ (e) => { e.preventDefault() }}
           tabIndex={1}
           onKeyDown={(e) => { this.keyDown(e); }}

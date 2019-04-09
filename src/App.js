@@ -3,6 +3,12 @@ import Dropdown from './components/Dropdown';
 import fruit from "./resourse/options";
 import menuContainerStyle from './styles/menuContainerStyle/menuContainerStyle'
 
+const newOptions =[
+  {
+    label: "SomeData", value: 123
+  }
+]
+
 class App extends Component {
   render() {
     return (
@@ -17,8 +23,13 @@ class App extends Component {
               isMulti={true}
               onClose={ () => { console.log('Close') } }
               onOpen={ () => { console.log('Open') } }   
-              className={'someClass'}
+              classNameByDropdown={'someClassDropdown'}
+              classNameByInput={'someClassByInput'}
+              classNameByList={'someClassByList'}
               onChange={(newValue) => {console.log('change', newValue)}}
+              valueKey="id"
+              labelKey="title"
+              newOptions={newOptions}
           />
         </div>
       </div>

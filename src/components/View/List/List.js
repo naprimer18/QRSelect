@@ -18,13 +18,15 @@ export default class ListDropdown extends Component {
     };
 
     render() {
-    const {options, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef } = this.props;
+    const {options, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey , labelKey , newOptions , classNameByList} = this.props;
         if ( !inputRef || !listOpen ) {
             return null;
         }
-     
+
         return ReactDOM.createPortal(
-            <div className={"listWrapper"} ref={ ref => _listRef(ref) } style={ this.getListPosition() }>
+            <div className={"listWrapper"}  /*className={classNameByList ? classNameByList : "listWrapper"}*/ 
+                ref={ ref => _listRef(ref) }
+                style={ this.getListPosition() }>  
                 {<ul className="dd-list" onClick={ e => e.stopPropagation() } >
                     {options.filter(item => { return item.title.toLowerCase().indexOf(filterItems) >=0 }).map((item, id) => (
                         <div
@@ -36,7 +38,7 @@ export default class ListDropdown extends Component {
                                 selectItem(e, item)
                             }}
                         >
-                            {item.title}
+                            {item[labelKey]}
                         </div>
                     ))}
                 </ul>}
