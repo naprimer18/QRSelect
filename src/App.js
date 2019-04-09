@@ -3,12 +3,6 @@ import Dropdown from './components/Dropdown';
 import fruit from "./resourse/options";
 import menuContainerStyle from './styles/menuContainerStyle/menuContainerStyle'
 
-const newOptions =[
-  {
-    label: "SomeData", value: 123
-  }
-]
-
 class App extends Component {
   render() {
     return (
@@ -29,7 +23,7 @@ class App extends Component {
               onChange={(newValue) => {console.log('change', newValue)}}
               valueKey="id"
               labelKey="title"
-              newOptions={newOptions}
+              maxListHeight={'172px'}
           />
         </div>
       </div>
