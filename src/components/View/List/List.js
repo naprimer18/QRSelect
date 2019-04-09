@@ -37,7 +37,7 @@ export default class ListDropdown extends Component {
                             key={ item[valueKey] }
                             onMouseDown={ (e) => { e.preventDefault() }}
                             onClick={ (e) => {
-                                selectItem(e, item)
+                                selectItem(e, item);
                             }}
                         >
                             {item[labelKey]}

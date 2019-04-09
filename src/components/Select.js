@@ -22,13 +22,13 @@ export default class Select extends Component{
   }
   componentDidUpdate() {
     const { listOpen } = this.state;
-    setTimeout(() => {
+    return async () => {
       if (listOpen) {
         window.addEventListener('click', this.close);
       } else {
         window.removeEventListener('click', this.close);
       }
-    }, 0);
+    };
   };
 
   componentWillUnmount() {
@@ -47,7 +47,7 @@ export default class Select extends Component{
     });
   };
 
-  selectMultiValues = (id) => {
+  selectMultiValuesWithCtrl = (id) => {
     this.setState(previousState => {
       return {
         idFromWhichBeganSelection: id,
@@ -59,7 +59,7 @@ export default class Select extends Component{
     });
   };
 
-  hoveredAndSelectedMultiValues = (id) => {
+  selectMultiValuesWithShift = (id) => {
     const { data } = this.props;
     const { idFromWhichBeganSelection } = this.state;
     this.setState( () => {
@@ -72,8 +72,12 @@ export default class Select extends Component{
         focusedId: id
        }},
       () => {
-        this.props.onChange? this.props.onChange(this.state.selectedId): null;
+        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
     });
+  };
+
+  _getChangedFocusVal = (howMuch, focusedId) => {
+    return focusedId + howMuch
   };
 
   selectSingleItem = (id) => {
@@ -82,10 +86,10 @@ export default class Select extends Component{
         idFromWhichBeganSelection: id,
         listOpen: !previousState.listOpen,
         selectedId:  [id],
-        focusedId: previousState.focusedId
+        focusedId: this._getChangedFocusVal(0, previousState.focusedId)
       }},
       () => {
-        this.props.onChange? this.props.onChange(this.state.selectedId): null;
+        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
     });
   };
 
@@ -107,7 +111,7 @@ export default class Select extends Component{
        this.setState( prevState => ({
          focusedId: prevState.focusedId,
          selectedId: [],
-         idFromWhichBeganSelection: 0
+         idFromWhichBeganSelection: !prevState.idFromWhichBeganSelection ? 0 : prevState.idFromWhichBeganSelection
       }),
            () => {
              if( !this.state.listOpen && this.props.onOpen )
@@ -124,15 +128,115 @@ export default class Select extends Component{
     e.preventDefault();
 
     if (e.shiftKey && isMulti) {
-      this.hoveredAndSelectedMultiValues(id);
+      this.selectMultiValuesWithShift(id);
       return;
     }
 
     if (e.ctrlKey && isMulti) {
-      this.selectMultiValues(id);
+      this.selectMultiValuesWithCtrl(id);
     } else {
       this.selectSingleItem(id);
     }
+  };
+
+  onChangeSingleSelectToTop = () => {
+    this.setState(previousState => {
+      if (previousState.focusedId === null) {
+        return {
+          focusedId: null,
+          selectedId: []
+        }
+      } else if ( previousState.focusedId === 0 ){
+        return {
+          focusedId: 0,
+          selectedId: [0]
+        }
+      } else return {
+        selectedId: [previousState.focusedId - 1],
+        focusedId: previousState.focusedId - 1,
+        idFromWhichBeganSelection: previousState.focusedId - 1
+      }
+      },
+      () => {
+        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+      }
+    );
+  };
+
+  onChangeSingleSelectToBottom= () => {
+    const { data } = this.props;
+    this.setState(previousState => {
+          if ( previousState.listOpen && previousState.focusedId === null ){
+            return {
+              focusedId: this._getChangedFocusVal(1, previousState.focusedId),
+              selectedId: [1],
+              idFromWhichBeganSelection: 1
+            }
+          } else if (previousState.focusedId === data.length - 1) {
+            return {
+              focusedId: data.length - 1,
+              selectedId: [data.length - 1]
+            }
+          } else return {
+            selectedId: [previousState.focusedId + 1],
+            focusedId: previousState.focusedId + 1,
+            idFromWhichBeganSelection: previousState.focusedId + 1
+          }
+        },
+        () => {
+          this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+        }
+    );
+  };
+
+  onChangeFocusToTop = () => {
+    this.setState( previousState => {
+      if (previousState.focusedId === null) {
+        return {
+          focusedId: 0,
+          selectedId: [...previousState.selectedId]
+        }
+      } else if ( previousState.focusedId !== 0 ) {
+        return {
+          focusedId: previousState.focusedId - 1,
+          selectedId: [...previousState.selectedId]
+        };
+      } else if ( previousState.focusedId === 0 ) {
+        return {
+          focusedId: previousState.focusedId,
+          selectedId: [...previousState.selectedId]
+        }
+      }
+      },
+      () => {
+        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+      }
+    );
+  };
+
+  onChangeFocusToBottom = () => {
+    const { data } = this.props;
+    this.setState( previousState => {
+          if ( previousState.listOpen && previousState.focusedId === null ) {
+            return {
+              focusedId: 0,
+              selectedId: [...previousState.selectedId]
+            }
+          } else if ( previousState.focusedId !== data.length - 1 ) {
+            return {
+              focusedId: previousState.focusedId + 1,
+              selectedId: [...previousState.selectedId]
+            }
+          } else if (previousState.focusedId === data.length - 1 ) {
+            return {
+              focusedId: data.length - 1,
+              selectedId: [...previousState.selectedId]
+            }
+          }
+        },
+        () => {
+          this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+        });
   };
 
   keyDown = (e) => {
@@ -194,109 +298,28 @@ export default class Select extends Component{
           focusedId: previousState.focusedId,
           selectedId: [...previousState.selectedId]
         }
-      },
-          () => {
-            this.props.onChange? this.props.onChange(this.state.selectedId): null;
-          });
+      });
       return;
     }
 
     if (!e.shiftKey && !e.ctrlKey && e.which === keyUp && listOpen) {
-      this.setState(previousState => {
-        if (previousState.focusedId === null) {
-          return {
-            focusedId: null,
-            selectedId: []
-          }
-        } else if ( previousState.focusedId === 0 ){
-            return {
-              focusedId: 0,
-              selectedId: [0]
-          }
-        } else return {
-            selectedId: [previousState.focusedId - 1],
-            focusedId: previousState.focusedId - 1,
-            idFromWhichBeganSelection: previousState.focusedId - 1
-          }
-      },
-          () => {
-            this.props.onChange? this.props.onChange(this.state.selectedId): null;
-          });
+      this.onChangeSingleSelectToTop();
       return;
     }
 
     if (!e.shiftKey && !e.ctrlKey && e.which === keyDown && listOpen) {
-      this.setState(previousState => {
-        if ( previousState.listOpen && previousState.focusedId === null ){
-          return {
-            focusedId: 1,
-            selectedId: [1],
-            idFromWhichBeganSelection: 1
-          }
-        } else if (previousState.focusedId === data.length - 1) {
-            return {
-              focusedId: data.length - 1,
-              selectedId: [data.length - 1]
-            }
-        } else return {
-            selectedId: [previousState.focusedId + 1],
-            focusedId: previousState.focusedId + 1,
-            idFromWhichBeganSelection: previousState.focusedId + 1
-          }
-      },
-          () => {
-            this.props.onChange? this.props.onChange(this.state.selectedId): null;
-          });
+      this.onChangeSingleSelectToBottom();
       return;
     }
 
     if (e.ctrlKey && e.which === keyDown && listOpen){
-      this.setState( previousState => {
-        if ( previousState.listOpen && previousState.focusedId === null ){
-          return {
-            focusedId: 0,
-            selectedId: [...previousState.selectedId]
-          }
-        } else if ( previousState.focusedId !== data.length - 1 ) {
-            return {
-              focusedId: previousState.focusedId + 1,
-              selectedId: [...previousState.selectedId]
-            }
-        } else if (previousState.focusedId === data.length - 1 ) {
-            return {
-              focusedId: data.length - 1,
-              selectedId: [...previousState.selectedId]
-            }
-        }
-      },
-          () => {
-            this.props.onChange? this.props.onChange(this.state.selectedId): null;
-          });
+      this.onChangeFocusToBottom();
       return;
     }
 
     if (e.ctrlKey && e.which === keyUp && listOpen) {
-      this.setState( previousState => {
-        if (previousState.focusedId === null) {
-          return {
-            focusedId: 0,
-            selectedId: [...previousState.selectedId]
-          }
-          } else if ( previousState.focusedId !== 0 ){
-            return {
-              focusedId: previousState.focusedId - 1,
-              selectedId: [...previousState.selectedId]
-            };
-        } else if ( previousState.focusedId === 0 ) {
-            return {
-              focusedId: previousState.focusedId,
-              selectedId: [...previousState.selectedId]
-            }
-        }
-      },
-          () => {
-            this.props.onChange? this.props.onChange(this.state.selectedId): null;
-          });
+      this.onChangeFocusToTop();
+      return;
     }
 
     if (e.shiftKey && e.which === keyDown && listOpen) {
@@ -325,7 +348,7 @@ export default class Select extends Component{
         }
       },
           () => {
-            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+            this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
           });
     }
 
@@ -355,7 +378,7 @@ export default class Select extends Component{
         }
       },
           () => {
-            this.props.onChange? this.props.onChange(this.state.selectedId): null;
+            this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
           });
     }
   };
@@ -399,9 +422,6 @@ export default class Select extends Component{
       _listRef: ref => this._listRef = ref,
       calculatePosition: !!listParent,
       selectItem: this.selectItem,
-      onMultiItemSelected: isMulti ? this.selectMultiValues : null,
-      onSingleItemSelected: this.selectSingleItem,
-      onMultiValuesHoveredAndSelected: this.hoveredAndSelectedMultiValues,
       menuContainerStyle: menuContainerStyle ? menuContainerStyle : null
     };
 
