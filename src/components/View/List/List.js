@@ -18,7 +18,7 @@ export default class ListDropdown extends Component {
     };
 
     render() {
-    const {options, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey , labelKey , newOptions , classNameByList} = this.props;
+    const {options, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey, labelKey, classNameByList} = this.props;
         if ( !inputRef || !listOpen ) {
             return null;
         }
@@ -27,7 +27,7 @@ export default class ListDropdown extends Component {
             <div className={"listWrapper"}  /*className={classNameByList ? classNameByList : "listWrapper"}*/ 
                 ref={ ref => _listRef(ref) }
                 style={ this.getListPosition() }>  
-                {<ul className="dd-list" onClick={ e => e.stopPropagation() } >
+                {<div className="dd-list" onClick={ e => e.stopPropagation() } >
                     {options.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
                         <div
                             ref={ list => { if (id === 0) _listRef(list) } }
@@ -42,7 +42,10 @@ export default class ListDropdown extends Component {
                             {item[labelKey]}
                         </div>
                     ))}
-                </ul>}
+                </div>}
+                <div className="not-found-options">
+                   not found
+                </div>
             </div>,
             wrapperRef
         );

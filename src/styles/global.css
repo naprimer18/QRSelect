@@ -99,10 +99,11 @@ p {
   color: #000;
   margin-right: 20px;
 }
-.listWrapper{
+.listWrapper  {
   position: absolute;
   overflow-y: scroll;
-  height: 170px;
+  max-height: 172px;
+  min-height: 35px;
   border: 1px solid #dfdfdf;
   border-top: none;
   border-bottom-right-radius: 3px;
@@ -220,3 +221,18 @@ input[type=text] {
 :-moz-placeholder { /* Firefox 18- */
   font-size:15px;
 }
+.not-found-options {
+  display: none;
+}
+.dd-list:empty:before{
+    content:'Nothing found';
+    color:#808080;
+    font-size: 1.5rem;
+    padding: 8px 10px;
+    line-height: 1.6rem;
+    cursor: default;
+    display: inline-block;
+    white-space: nowrap;
+    border: 1px solid white;
+}
+ 
