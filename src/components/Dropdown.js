@@ -364,7 +364,7 @@ export default class Dropdown extends Component{
   };
 
   render(){
-    const { listParent, options, placeHolder, isMulti , menuContainerStyle, classNameByDropdown, classNameByInput , classNameByList ,valueKey , labelKey , newOptions} = this.props;
+    const { listParent, options, placeHolder, isMulti , menuContainerStyle, classNameByDropdown, classNameByInput , classNameByList ,valueKey , labelKey , newOptions , maxListHeight} = this.props;
     const { listOpen, selectedId, focusedId, filterItems, idFromWhichBeganSelection } = this.state;
 
     const inputDropdownProps = {
@@ -386,6 +386,7 @@ export default class Dropdown extends Component{
       valueKey,
       labelKey,
       newOptions,
+      maxListHeight,
       classNameByDropdown,
       options,
       filterItems,

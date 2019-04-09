@@ -4,13 +4,14 @@ import ReactDOM from 'react-dom';
 export default class ListDropdown extends Component {
 
     getListPosition = () => {
-        const { inputRef, calculatePosition } = this.props;
+        const { inputRef, calculatePosition , maxListHeight} = this.props;
         if (inputRef && calculatePosition) {
             const coordinates = inputRef.getBoundingClientRect();
             return {
                 'width': coordinates.width,
                 'left': coordinates.left,
-                'top': coordinates.top + coordinates.height
+                'top': coordinates.top + coordinates.height,
+                'maxHeight': maxListHeight
             };
         } else {
             return null;
@@ -18,7 +19,7 @@ export default class ListDropdown extends Component {
     };
 
     render() {
-    const {options, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey, labelKey, classNameByList} = this.props;
+    const {options, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey, labelKey, classNameByList , maxListHeight} = this.props;
         if ( !inputRef || !listOpen ) {
             return null;
         }
@@ -26,7 +27,7 @@ export default class ListDropdown extends Component {
         return ReactDOM.createPortal(
             <div className={"listWrapper"}  /*className={classNameByList ? classNameByList : "listWrapper"}*/ 
                 ref={ ref => _listRef(ref) }
-                style={ this.getListPosition() }>  
+                style={ this.getListPosition()}>  
                 {<div className="dd-list" onClick={ e => e.stopPropagation() } >
                     {options.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
                         <div

@@ -23,6 +23,7 @@ class App extends Component {
               onChange={(newValue) => {console.log('change', newValue)}}
               valueKey="id"
               labelKey="title"
+              maxListHeight={'172px'}
           />
         </div>
       </div>
