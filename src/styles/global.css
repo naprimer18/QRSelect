@@ -147,10 +147,6 @@ p {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.dd-list-item-on-focus:hover {
-    background-color: #cff8ff;
-}
-
 /*.dd-list-item:hover {*/
   /*border: 1px solid;*/
 /*}*/
@@ -171,6 +167,11 @@ p {
 .dd-wrapper-single .dd-list {
   border: 1px solid #ccc;
   border-top: none;
+}
+
+.selected-item:hover {
+    border: 1px solid;
+    background-color: #00FFFF;
 }
 
 .selected-item {
