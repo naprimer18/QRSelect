@@ -11,7 +11,7 @@ export default class ListDropdown extends Component {
                 'width': coordinates.width,
                 'left': coordinates.left,
                 'top': coordinates.top + coordinates.height,
-                'maxHeight': maxListHeight
+                'maxHeight': maxListHeight * 34
             };
         } else {
             return null;
@@ -30,8 +30,8 @@ export default class ListDropdown extends Component {
                 style={ this.getListPosition() }>  
                 {<div className="dd-list" onClick={ e => e.stopPropagation() } >
                     {data.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
+
                         <div
-                            ref={ list => { if (id === 0) _listRef(list) } }
                             className={ ( focusedId === item[valueKey] ? "dd-list-item-on-focus" : "dd-list-item" ) + ( selectedId.includes(item[valueKey]) ? " selected-item" : "" ) }
                             key={ item[valueKey] }
                             onMouseDown={ (e) => { e.preventDefault() }}

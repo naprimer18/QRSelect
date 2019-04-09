@@ -21,9 +21,9 @@ export default class InputDropdown extends Component {
 
             <div className={`dd-header${inputClassName   ? " " + inputClassName   : ''}`}
                  onClick={ () => { toggleList() }}
-                 ref={inputRef => { _inputRef(inputRef) }}> 
-                    <div className="dd-header-title"></div> 
-                    <input type="text" className="form-control form-control-lg" placeholder={this.getHeaderTitle()} onChange={(event) => {filterList(event)}} />
+                 ref={inputRef => { _inputRef(inputRef) }}>
+                    <div className="dd-header-title"></div>
+                    <input type="text" className="form-control form-control-lg" placeholder={this.getHeaderTitle()} onChange={(event) => { event.preventDefault(); filterList(event)}} />
                     {listOpen ? <FontAwesome name="angle-up" size="2x"/> : <FontAwesome name="angle-down" size="2x"/> }     
             </div>
         );
