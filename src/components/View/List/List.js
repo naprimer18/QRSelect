@@ -27,10 +27,11 @@ export default class ListDropdown extends Component {
         return ReactDOM.createPortal(
             <div 
                 className={`listWrapper${listClassName  ? " " + listClassName  : ''}`}
-                style={ this.getListPosition() }>  
+                style={ this.getListPosition() }
+                ref={ list =>  _listRef(list) }
+            >
                 {<div className="dd-list" onClick={ e => e.stopPropagation() } >
                     {data.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
-
                         <div
                             className={ ( focusedId === item[valueKey] ? "dd-list-item-on-focus" : "dd-list-item" ) + ( selectedId.includes(item[valueKey]) ? " selected-item" : "" ) }
                             key={ item[valueKey] }
