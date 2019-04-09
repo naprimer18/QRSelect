@@ -4,11 +4,11 @@ import FontAwesome from 'react-fontawesome';
 export default class InputDropdown extends Component {
     getHeaderTitle() {
         const { valueKey } = this.props;
-        const { options, selectedId, placeHolder } = this.props;
-        if (!options || !selectedId || !selectedId.length) {
+        const { data, selectedId, placeHolder } = this.props;
+        if (!data || !selectedId || !selectedId.length) {
             return placeHolder;
         }
-        const _item = options.find(item => item[valueKey] === selectedId[selectedId.length - 1]);
+        const _item = data.find(item => item[valueKey] === selectedId[selectedId.length - 1]);
         if (!_item) {
             return placeHolder;
         }
@@ -16,10 +16,10 @@ export default class InputDropdown extends Component {
     }
 
     render() {
-        const {filterList, listOpen, toggleList, _inputRef , classNameByInput , valueKey , labelKey } = this.props;
+        const {filterList, listOpen, toggleList, _inputRef , inputClassName  , valueKey , labelKey } = this.props;
         return (
 
-            <div className="dd-header"  /*className={classNameByInput ? classNameByInput : "dd-header"}*/ 
+            <div className={`dd-header${inputClassName   ? " " + inputClassName   : ''}`}
                  onClick={ () => { toggleList() }}
                  ref={inputRef => { _inputRef(inputRef) }}> 
                     <div className="dd-header-title"></div> 

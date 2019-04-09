@@ -19,16 +19,17 @@ export default class ListDropdown extends Component {
     };
 
     render() {
-    const {options, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey, labelKey, classNameByList , maxListHeight} = this.props;
+    const {data, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey, labelKey, listClassName , maxListHeight} = this.props;
         if ( !inputRef || !listOpen ) {
             return null;
         }
 
         return ReactDOM.createPortal(
-            <div className={"listWrapper"}  /*className={classNameByList ? classNameByList : "listWrapper"}*/
+            <div 
+                className={`listWrapper${listClassName  ? " " + listClassName  : ''}`}
                 style={ this.getListPosition() }>  
                 {<div className="dd-list" onClick={ e => e.stopPropagation() } >
-                    {options.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
+                    {data.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
                         <div
                             ref={ list => { if (id === 0) _listRef(list) } }
                             className={ ( focusedId === item[valueKey] ? "dd-list-item-on-focus" : "dd-list-item" ) + ( selectedId.includes(item[valueKey]) ? " selected-item" : "" ) }

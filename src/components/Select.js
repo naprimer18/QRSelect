@@ -3,7 +3,7 @@ import ListDropdown from './View/List';
 import InputDropdown from './View/Input';
 import '../styles/global.css';
 
-export default class Dropdown extends Component{
+export default class Select extends Component{
   constructor(props) {
     super(props);
     this._wrapperRef = null;
@@ -36,13 +36,13 @@ export default class Dropdown extends Component{
   };
 
   close = () => {
-    const { options } = this.props;
+    const { data } = this.props;
     this.setState( previousState => {
       const { selectedId } = previousState;
       return{
         listOpen: false,
         focusedId: null,
-        selectedId: selectedId.length !== 0 ? selectedId.filter( item => { return item !== -1 && item !== options.length }) : []
+        selectedId: selectedId.length !== 0 ? selectedId.filter( item => { return item !== -1 && item !== data.length }) : []
       }
     });
   };
@@ -60,10 +60,10 @@ export default class Dropdown extends Component{
   };
 
   hoveredAndSelectedMultiValues = (id) => {
-    const { options } = this.props;
+    const { data } = this.props;
     const { idFromWhichBeganSelection } = this.state;
     this.setState( () => {
-      const allIds = [...options.map( item => item.id )];
+      const allIds = [...data.map( item => item.id )];
       return {
         selectedId: id >= idFromWhichBeganSelection ?
             allIds.filter( item => (item <= id) && ( item >= idFromWhichBeganSelection ))
@@ -136,7 +136,7 @@ export default class Dropdown extends Component{
   };
 
   keyDown = (e) => {
-    const { options } = this.props;
+    const { data } = this.props;
     const { focusedId, listOpen, firstVisibleItemOnScrollMenu, lastVisibleItemOnScrollMenu } = this.state;
     const keyUp = 38;
     const keyDown = 40;
@@ -165,7 +165,7 @@ export default class Dropdown extends Component{
     /**************************************  scrolling of menu  *************************/
     if ( focusedId === lastVisibleItemOnScrollMenu && e.which === keyDown ) {
       this._listRef.scrollBy(0, 34);
-      (focusedId !== options.length - 1) && this.setState(previousState => {
+      (focusedId !== data.length - 1) && this.setState(previousState => {
         return{
           firstVisibleItemOnScrollMenu: previousState.firstVisibleItemOnScrollMenu + 1,
           lastVisibleItemOnScrollMenu: previousState.lastVisibleItemOnScrollMenu + 1
@@ -232,10 +232,10 @@ export default class Dropdown extends Component{
             selectedId: [1],
             idFromWhichBeganSelection: 1
           }
-        } else if (previousState.focusedId === options.length - 1) {
+        } else if (previousState.focusedId === data.length - 1) {
             return {
-              focusedId: options.length - 1,
-              selectedId: [options.length - 1]
+              focusedId: data.length - 1,
+              selectedId: [data.length - 1]
             }
         } else return {
             selectedId: [previousState.focusedId + 1],
@@ -256,14 +256,14 @@ export default class Dropdown extends Component{
             focusedId: 0,
             selectedId: [...previousState.selectedId]
           }
-        } else if ( previousState.focusedId !== options.length - 1 ) {
+        } else if ( previousState.focusedId !== data.length - 1 ) {
             return {
               focusedId: previousState.focusedId + 1,
               selectedId: [...previousState.selectedId]
             }
-        } else if (previousState.focusedId === options.length - 1 ) {
+        } else if (previousState.focusedId === data.length - 1 ) {
             return {
-              focusedId: options.length - 1,
+              focusedId: data.length - 1,
               selectedId: [...previousState.selectedId]
             }
         }
@@ -307,13 +307,13 @@ export default class Dropdown extends Component{
             selectedId: [...selectedId.filter(item => item !== 0 && item !== 1 && item < 2), 0, 1]
           }
         }
-        if (focusedId >= options.length - 1) {
+        if (focusedId >= data.length - 1) {
           return {
-            focusedId: options.length - 1,
+            focusedId: data.length - 1,
               selectedId: [...selectedId]
             }
         } else {
-          const allIds = [...options.map( item => item.id )];
+          const allIds = [...data.map( item => item.id )];
             return {
               selectedId: focusedId >= idFromWhichBeganSelection ?
                   [...allIds.filter( item => item >= idFromWhichBeganSelection && item <= focusedId + 1 )]
@@ -343,7 +343,7 @@ export default class Dropdown extends Component{
               selectedId: [...selectedId]
             }
         } else {
-          const allIds = [...options.map( item => item.id )];
+          const allIds = [...data.map( item => item.id )];
             return {
               selectedId: focusedId <= idFromWhichBeganSelection ?
                   [...allIds.filter( item => item <= idFromWhichBeganSelection && item >= focusedId - 1 )]
@@ -364,12 +364,12 @@ export default class Dropdown extends Component{
   };
 
   render(){
-    const { listParent, options, placeHolder, isMulti , menuContainerStyle, classNameByDropdown, classNameByInput , classNameByList ,valueKey , labelKey , newOptions , maxListHeight} = this.props;
+    const { listParent, data, placeHolder, isMulti , menuContainerStyle, className , inputClassName , listClassName   ,valueKey , labelKey , maxListHeight} = this.props;
     const { listOpen, selectedId, focusedId, filterItems, idFromWhichBeganSelection } = this.state;
 
     const inputDropdownProps = {
       filterItems,
-      options,
+      data,
       listOpen,
       toggleList: this.toggleList,
       filterList: this.filterList,
@@ -378,17 +378,15 @@ export default class Dropdown extends Component{
       placeHolder,
       valueKey,
       labelKey,
-      newOptions,
-      classNameByInput
+      inputClassName 
     };
 
     const listDropdownProps = {
+      listClassName,
       valueKey,
       labelKey,
-      newOptions,
       maxListHeight,
-      classNameByDropdown,
-      options,
+      data,
       filterItems,
       listOpen,
       selectedId,
@@ -411,7 +409,7 @@ export default class Dropdown extends Component{
     return (
       <div
           style={ menuContainerStyle ? menuContainerStyle : null}
-          className="dd-wrapper"  /*className={classNameByDropdown ? classNameByDropdown : "dd-wrapper"}*/
+          className={`dd-wrapper${className  ? " " + className  : ''}`}
           onFocus={ (e) => { e.preventDefault() }}
           tabIndex={1}
           onKeyDown={(e) => { this.keyDown(e); }}

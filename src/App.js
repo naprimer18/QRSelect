@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Dropdown from './components/Dropdown';
+import Select from './components/Select';
 import fruit from "./resourse/options";
 import menuContainerStyle from './styles/menuContainerStyle/menuContainerStyle'
 
@@ -9,17 +9,17 @@ class App extends Component {
       <div className="App">
         <p>Dropdown menu examples</p>
         <div className="wrapper">
-          <Dropdown
+          <Select
               menuContainerStyle={menuContainerStyle}
               listParent={document.getElementById("best")}
-              options={fruit}
+              data={fruit}
               placeHolder="Select fruit"
               isMulti={true}
               onClose={ () => { console.log('Close') } }
               onOpen={ () => { console.log('Open') } }   
-              classNameByDropdown={'someClassDropdown'}
-              classNameByInput={'someClassByInput'}
-              classNameByList={'someClassByList'}
+              className ={'ClassDropdown'}
+              inputClassName ={'inputClassName'}
+              listClassName ={'listClassName'}
               onChange={(newValue) => {console.log('change', newValue)}}
               valueKey="id"
               labelKey="title"
