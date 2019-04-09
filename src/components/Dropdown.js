@@ -16,7 +16,7 @@ export default class Dropdown extends Component{
       focusedId: null,
       menuOpened: null,
       firstVisibleItemOnScrollMenu: 0,
-      lastVisibleItemOnScrollMenu: 4,
+      lastVisibleItemOnScrollMenu: props.maxListHeight - 1,
       filterItems: ''
     };
   }
@@ -173,6 +173,7 @@ export default class Dropdown extends Component{
       });
     } else if ( focusedId === firstVisibleItemOnScrollMenu && e.which === keyUp ) {
       this._listRef.scrollBy(0, -34);
+      console.log(this._listRef);
       ( focusedId !== 0 ) && this.setState(previousState => {
         return{
           firstVisibleItemOnScrollMenu: previousState.firstVisibleItemOnScrollMenu - 1,

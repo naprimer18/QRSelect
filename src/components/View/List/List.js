@@ -11,7 +11,7 @@ export default class ListDropdown extends Component {
                 'width': coordinates.width,
                 'left': coordinates.left,
                 'top': coordinates.top + coordinates.height,
-                'maxHeight': maxListHeight
+                'maxHeight': maxListHeight * 34
             };
         } else {
             return null;
@@ -26,11 +26,12 @@ export default class ListDropdown extends Component {
 
         return ReactDOM.createPortal(
             <div className={"listWrapper"}  /*className={classNameByList ? classNameByList : "listWrapper"}*/
-                style={ this.getListPosition() }>  
+                style={ this.getListPosition() }
+                ref={ list => { _listRef(list) } }
+            >
                 {<div className="dd-list" onClick={ e => e.stopPropagation() } >
-                    {options.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item, id) => (
+                    {options.filter(item => { return item[labelKey].toLowerCase().indexOf(filterItems) >= 0 }).map((item) => (
                         <div
-                            ref={ list => { if (id === 0) _listRef(list) } }
                             className={ ( focusedId === item[valueKey] ? "dd-list-item-on-focus" : "dd-list-item" ) + ( selectedId.includes(item[valueKey]) ? " selected-item" : "" ) }
                             key={ item[valueKey] }
                             onMouseDown={ (e) => { e.preventDefault() }}
