@@ -22,7 +22,8 @@ class App extends Component {
               // listClassName ={'listClassName'}
               // valueKey="id"
               // labelKey="title"
-              // maxListHeight={6}
+              // maxListHeight={3}
+              // value={[1,4,5]}
           />
         </div>
       </div>

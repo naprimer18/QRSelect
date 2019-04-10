@@ -10,6 +10,7 @@ const TOP_WAY = "TOP";
 export default class Select extends Component{
 
   constructor(props) {
+    const { value } = props;
     super(props);
     this._wrapperRef = null;
     this._inputRef = null;
@@ -17,13 +18,21 @@ export default class Select extends Component{
     this.state = {
       idFromWhichBeganSelection: 0,
       listOpen: null,
-      selectedId: [],
+      // selectedId: [],
+      selectedId:  value.length !== 0 ? [...value] : [],
       focusedId: null,
       firstVisibleItemOnScrollMenu: 0,
       lastVisibleItemOnScrollMenu: props.maxListHeight - 1,
       filterItems: ''
     };
   }
+
+  // componentWillMount() {
+  //   this.setState({
+  //     selectedId: [...this.props.value]
+  //   });
+  // }
+
   componentDidUpdate() {
     const { listOpen } = this.state;
     setTimeout(() => {
@@ -32,36 +41,15 @@ export default class Select extends Component{
         window.addEventListener('resize', this.close);
       } else {
         window.removeEventListener('click', this.close);
-        window.addEventListener('resize', this.close);
+        window.removeEventListener('resize', this.close);
       }
     }, 0);
   };
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.close)
-    
-    (function() {
+    window.removeEventListener('click', this.close);
+    window.removeEventListener("resize", this.close);
 
-      window.addEventListener("resize", resizeThrottler, false);
-    
-      var resizeTimeout;
-      function resizeThrottler() {
-        // ignore resize events as long as an actualResizeHandler execution is in the queue
-        if ( !resizeTimeout ) {
-          resizeTimeout = setTimeout(function() {
-            resizeTimeout = null;
-            actualResizeHandler();
-         
-           // The actualResizeHandler will execute at a rate of 15fps
-           }, 66);
-        }
-      }
-    
-      function actualResizeHandler() {
-        // handle the resize event
-      }
-    
-    }());
   };
 
   close = () => {
@@ -514,20 +502,20 @@ Select.propTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   maxListHeight: PropTypes.number,
-  menuContainerStyle: PropTypes.object
+  menuContainerStyle: PropTypes.object,
 };
 
 Select.defaultProps = {
   className: "",
-  value: null,
+  value: [],
   placeHolder: "Select...",
   isMulti: false,
   onClose: () => {},
   onOpen: () => {},
-  onChange: () => {console.log('hi')},
+  onChange: () => {},
   valueKey: "id",
   labelKey: "title",
-  maxListHeight: 5,
+  maxListHeight: 4,
   menuContainerStyle: null,
   listParent: null
 };
