@@ -29,14 +29,39 @@ export default class Select extends Component{
     setTimeout(() => {
       if (listOpen) {
         window.addEventListener('click', this.close);
+        window.addEventListener('resize', this.close);
       } else {
         window.removeEventListener('click', this.close);
+        window.addEventListener('resize', this.close);
       }
     }, 0);
   };
 
   componentWillUnmount() {
     window.removeEventListener('click', this.close)
+    
+    (function() {
+
+      window.addEventListener("resize", resizeThrottler, false);
+    
+      var resizeTimeout;
+      function resizeThrottler() {
+        // ignore resize events as long as an actualResizeHandler execution is in the queue
+        if ( !resizeTimeout ) {
+          resizeTimeout = setTimeout(function() {
+            resizeTimeout = null;
+            actualResizeHandler();
+         
+           // The actualResizeHandler will execute at a rate of 15fps
+           }, 66);
+        }
+      }
+    
+      function actualResizeHandler() {
+        // handle the resize event
+      }
+    
+    }());
   };
 
   close = () => {
@@ -417,13 +442,15 @@ export default class Select extends Component{
   };
 
   filterList = (e) => {
-    this.setState({filterItems:e.target.value.toLowerCase()});
+    this.setState({filterItems:e.target.value.toLowerCase().trim()});
   };
 
   render(){
-    const { listParent, data, placeHolder, menuContainerStyle, className, inputClassName, listClassName, valueKey, labelKey, maxListHeight} = this.props;
+    const { listParent, data, placeHolder, menuContainerStyle, className, inputClassName, listClassName, valueKey, labelKey, maxListHeight, isFilterable} = this.props;
     const { listOpen, selectedId, focusedId, filterItems } = this.state;
+
     const inputDropdownProps = {
+      isFilterable,
       filterItems,
       data,
       listOpen,
@@ -438,6 +465,7 @@ export default class Select extends Component{
     };
 
     const listDropdownProps = {
+      isFilterable,
       listClassName,
       valueKey,
       labelKey,
