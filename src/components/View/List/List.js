@@ -7,6 +7,7 @@ export default class ListDropdown extends Component {
         const { inputRef, calculatePosition , maxListHeight} = this.props;
         if (inputRef && calculatePosition) {
             const coordinates = inputRef.getBoundingClientRect();
+            console.log(12);
             return {
                 'width': coordinates.width,
                 'left': coordinates.left,
@@ -23,7 +24,7 @@ export default class ListDropdown extends Component {
         if ( !inputRef || !listOpen ) {
             return null;
         }
-
+        console.log('hui');
         return ReactDOM.createPortal(
             <div 
                 className={`listWrapper${listClassName  ? " " + listClassName  : ''}`}

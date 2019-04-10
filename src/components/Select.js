@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ListDropdown from './View/List';
 import InputDropdown from './View/Input';
 import '../styles/global.css';
@@ -7,6 +8,7 @@ const BOTTOM_WAY = "BOTTOM";
 const TOP_WAY = "TOP";
 
 export default class Select extends Component{
+
   constructor(props) {
     super(props);
     this._wrapperRef = null;
@@ -63,7 +65,7 @@ export default class Select extends Component{
         }
       },
       () => {
-        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+        this.props.onChange(this.state.selectedId);
       }
     );
   };
@@ -81,7 +83,7 @@ export default class Select extends Component{
         focusedId: id
        }},
       () => {
-        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+        this.props.onChange(this.state.selectedId);
       }
     );
   };
@@ -95,7 +97,7 @@ export default class Select extends Component{
         focusedId: previousState.focusedId
       }},
       () => {
-        this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+        this.props.onChange(this.state.selectedId);
       }
     );
   };
@@ -108,9 +110,9 @@ export default class Select extends Component{
         idFromWhichBeganSelection: 0
       }),
       ()  => {
-        if( !this.state.listOpen && this.props.onOpen )
+        if( !this.state.listOpen )
           this.props.onOpen();
-        if ( this.state.listOpen && this.props.onClose )
+        if ( this.state.listOpen )
           this.props.onClose();
         }
       );
@@ -122,9 +124,9 @@ export default class Select extends Component{
          idFromWhichBeganSelection: !prevState.idFromWhichBeganSelection ? 0 : prevState.idFromWhichBeganSelection
          }),
          () => {
-           if( !this.state.listOpen && this.props.onOpen )
+           if( !this.state.listOpen )
              this.props.onOpen();
-           if ( this.state.listOpen && this.props.onClose )
+           if ( this.state.listOpen )
              this.props.onClose();
          }
        );
@@ -170,7 +172,7 @@ export default class Select extends Component{
               }
             },
             () => {
-              this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+              this.props.onChange(this.state.selectedId);
             }
         );
         break;
@@ -194,7 +196,7 @@ export default class Select extends Component{
               }
             },
             () => {
-              this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+              this.props.onChange(this.state.selectedId);
             });
         break;
       default:
@@ -225,7 +227,7 @@ export default class Select extends Component{
               }
             },
             () => {
-              this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+              this.props.onChange(this.state.selectedId);
             });
         break;
       case BOTTOM_WAY:
@@ -248,7 +250,7 @@ export default class Select extends Component{
               }
             },
             () => {
-              this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+              this.props.onChange(this.state.selectedId);
             });
         break;
       default:
@@ -287,7 +289,7 @@ export default class Select extends Component{
               }
             },
             () => {
-              this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+              this.props.onChange(this.state.selectedId);
             });
         break;
       case BOTTOM_WAY:
@@ -316,7 +318,7 @@ export default class Select extends Component{
               }
             },
             () => {
-              this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
+              this.props.onChange(this.state.selectedId);
             });
         break;
       default:
@@ -419,9 +421,8 @@ export default class Select extends Component{
   };
 
   render(){
-    const { listParent, data, placeHolder , menuContainerStyle, className , inputClassName , listClassName   ,valueKey , labelKey , maxListHeight} = this.props;
+    const { listParent, data, placeHolder, menuContainerStyle, className, inputClassName, listClassName, valueKey, labelKey, maxListHeight} = this.props;
     const { listOpen, selectedId, focusedId, filterItems } = this.state;
-
     const inputDropdownProps = {
       filterItems,
       data,
@@ -458,8 +459,8 @@ export default class Select extends Component{
 
     return (
       <div
-          style={ menuContainerStyle ? menuContainerStyle : null}
-          className={`dd-wrapper${className  ? " " + className  : ""}`}
+          style={ menuContainerStyle }
+          className={`dd-wrapper${ " " + className }`}
           onFocus={ (e) => { e.preventDefault() }}
           tabIndex={1}
           onKeyDown={(e) => { this.keyDown(e); }}
@@ -470,4 +471,35 @@ export default class Select extends Component{
       </div>
     );
   }
+};
+
+Select.propTypes = {
+  listParent: PropTypes.object,
+  data: PropTypes.array.isRequired,
+  value: PropTypes.array,
+  className: PropTypes.string,
+  placeHolder: PropTypes.string,
+  isMulti: PropTypes.bool,
+  onClose: PropTypes.func,
+  onOpen: PropTypes.func,
+  onChange: PropTypes.func,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string,
+  maxListHeight: PropTypes.number,
+  menuContainerStyle: PropTypes.object
+};
+
+Select.defaultProps = {
+  className: "",
+  value: null,
+  placeHolder: "Select...",
+  isMulti: false,
+  onClose: () => {},
+  onOpen: () => {},
+  onChange: () => {console.log('hi')},
+  valueKey: "id",
+  labelKey: "title",
+  maxListHeight: 5,
+  menuContainerStyle: null,
+  listParent: null
 };

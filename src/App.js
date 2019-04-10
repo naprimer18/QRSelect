@@ -10,20 +10,19 @@ class App extends Component {
         <p>Dropdown menu examples</p>
         <div className="wrapper">
           <Select
-              menuContainerStyle={menuContainerStyle}
-              listParent={document.getElementById("best")}
+              // menuContainerStyle={menuContainerStyle}
+              // listParent={document.getElementById("best")}
               data={fruit}
-              placeHolder="Select fruit"
-              isMulti={true}
-              // onClose={ () => { console.log('Close') } }
+              // placeHolder="Select fruit"
+              // isMulti={true}
+              // // onClose={ () => { console.log('Close') } }
               // onOpen={ () => { console.log('Open') } }
-              className ={'ClassDropdown'}
-              inputClassName ={'inputClassName'}
-              listClassName ={'listClassName'}
-              // onChange={(newValue) => {console.log('change', newValue)}}
-              valueKey="id"
-              labelKey="title"
-              maxListHeight={6}
+              // className ={'ClassDropdown'}
+              // inputClassName ={'inputClassName'}
+              // listClassName ={'listClassName'}
+              // valueKey="id"
+              // labelKey="title"
+              // maxListHeight={6}
           />
         </div>
       </div>
