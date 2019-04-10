@@ -19,7 +19,7 @@ export default class ListDropdown extends Component {
     };
 
     render() {
-    const {data, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey, labelKey, listClassName , maxListHeight} = this.props;
+    const {data, filterItems , listOpen, wrapperRef, inputRef, selectedId, focusedId, selectItem, _listRef , valueKey, labelKey, listClassName} = this.props;
         if ( !inputRef || !listOpen ) {
             return null;
         }

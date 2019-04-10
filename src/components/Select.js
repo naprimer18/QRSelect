@@ -25,13 +25,13 @@ export default class Select extends Component{
   }
   componentDidUpdate() {
     const { listOpen } = this.state;
-    return async () => {
+    setTimeout(() => {
       if (listOpen) {
         window.addEventListener('click', this.close);
       } else {
         window.removeEventListener('click', this.close);
       }
-    };
+    }, 0);
   };
 
   componentWillUnmount() {
@@ -196,6 +196,8 @@ export default class Select extends Component{
               this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
             });
         break;
+      default:
+        break;
     }
   };
 
@@ -247,6 +249,8 @@ export default class Select extends Component{
             () => {
               this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
             });
+        break;
+      default:
         break;
     }
   };
@@ -314,6 +318,8 @@ export default class Select extends Component{
               this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
             });
         break;
+      default:
+        break;
     }
   };
 
@@ -323,7 +329,6 @@ export default class Select extends Component{
     switch (where) {
       case TOP_WAY:
         this._listRef.scrollBy(0, -34);
-        console.log(this._listRef);
         ( focusedId !== 0 ) && this.setState(previousState => {
           return{
             firstVisibleItemOnScrollMenu: previousState.firstVisibleItemOnScrollMenu - 1,
@@ -339,6 +344,8 @@ export default class Select extends Component{
             lastVisibleItemOnScrollMenu: previousState.lastVisibleItemOnScrollMenu + 1
           }
         });
+        break;
+      default:
         break;
     }
   };
@@ -397,7 +404,7 @@ export default class Select extends Component{
     if (e.key === "Escape" && listOpen && this.state.selectedId.length === 0) {
       this.close();
     }
-    if (!e.shiftKey && !e.ctrlKey && e.which === keyUp || e.which === keyDown && !listOpen) {
+    if (!e.shiftKey && !e.ctrlKey && (e.which === keyUp || e.which === keyDown) && !listOpen) {
       this.preventChangesWhenListIsClosed();
     }
     if (e.which === 32 && listOpen) {

@@ -16,7 +16,7 @@ export default class InputDropdown extends Component {
     }
 
     render() {
-        const {filterList, listOpen, toggleList, _inputRef , inputClassName  , valueKey , labelKey } = this.props;
+        const {filterList, listOpen, toggleList, _inputRef , inputClassName } = this.props;
         return (
 
             <div className={`dd-header${inputClassName   ? " " + inputClassName   : ''}`}
