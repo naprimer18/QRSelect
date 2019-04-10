@@ -14,13 +14,19 @@ class App extends Component {
               listParent={document.getElementById("best")}
               data={fruit}
               placeHolder="Select fruit"
+<<<<<<< HEAD
               isMulti
               onClose={ () => { console.log('Close') } }
               onOpen={ () => { console.log('Open') } }   
+=======
+              isMulti={true}
+              // onClose={ () => { console.log('Close') } }
+              // onOpen={ () => { console.log('Open') } }
+>>>>>>> d888f04bfe2cf017125a8a5b8e9640637d8982b7
               className ={'ClassDropdown'}
               inputClassName ={'inputClassName'}
               listClassName ={'listClassName'}
-              onChange={(newValue) => {console.log('change', newValue)}}
+              // onChange={(newValue) => {console.log('change', newValue)}}
               valueKey="id"
               labelKey="title"
               maxListHeight={5}
