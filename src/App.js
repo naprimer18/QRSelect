@@ -14,7 +14,7 @@ class App extends Component {
               listParent={document.getElementById("best")}
               data={fruit}
               placeHolder="Select fruit"
-              isMulti={true}
+              isMulti
               onClose={ () => { console.log('Close') } }
               onOpen={ () => { console.log('Open') } }   
               className ={'ClassDropdown'}
@@ -23,7 +23,8 @@ class App extends Component {
               onChange={(newValue) => {console.log('change', newValue)}}
               valueKey="id"
               labelKey="title"
-              maxListHeight={6}
+              maxListHeight={5}
+              isFilterable
           />
         </div>
       </div>
