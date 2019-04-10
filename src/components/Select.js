@@ -18,7 +18,6 @@ export default class Select extends Component{
     this.state = {
       idFromWhichBeganSelection: 0,
       listOpen: null,
-      // selectedId: [],
       selectedId:  value.length !== 0 ? [...value] : [],
       focusedId: null,
       firstVisibleItemOnScrollMenu: 0,
@@ -26,12 +25,6 @@ export default class Select extends Component{
       filterItems: ''
     };
   }
-
-  // componentWillMount() {
-  //   this.setState({
-  //     selectedId: [...this.props.value]
-  //   });
-  // }
 
   componentDidUpdate() {
     const { listOpen } = this.state;
