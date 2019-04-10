@@ -17,7 +17,6 @@ export default class Select extends Component{
       listOpen: null,
       selectedId: [],
       focusedId: null,
-      menuOpened: null,
       firstVisibleItemOnScrollMenu: 0,
       lastVisibleItemOnScrollMenu: props.maxListHeight - 1,
       filterItems: ''
@@ -51,7 +50,8 @@ export default class Select extends Component{
     ()  => {
       if ( this.state.listOpen && this.props.onClose )
         this.props.onClose();
-    });
+      }
+    );
   };
 
   selectMultiValuesWithCtrl = (id) => {
@@ -64,7 +64,8 @@ export default class Select extends Component{
       },
       () => {
         this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
-    });
+      }
+    );
   };
 
   selectMultiValuesWithShift = (id) => {
@@ -81,11 +82,8 @@ export default class Select extends Component{
        }},
       () => {
         this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
-    });
-  };
-
-  _getChangedFocusVal = (howMuch, focusedId) => {
-    return focusedId + howMuch
+      }
+    );
   };
 
   selectSingleItem = (id) => {
@@ -94,11 +92,12 @@ export default class Select extends Component{
         idFromWhichBeganSelection: id,
         listOpen: !previousState.listOpen,
         selectedId:  [id],
-        focusedId: this._getChangedFocusVal(0, previousState.focusedId)
+        focusedId: previousState.focusedId
       }},
       () => {
         this.props.onChange ? this.props.onChange(this.state.selectedId) : null;
-    });
+      }
+    );
   };
 
   toggleList = (...rest) => {
@@ -108,29 +107,31 @@ export default class Select extends Component{
         focusedId: null,
         idFromWhichBeganSelection: 0
       }),
-          ()  => {
-            if( !this.state.listOpen && this.props.onOpen )
-              this.props.onOpen();
-            if ( this.state.listOpen && this.props.onClose )
-              this.props.onClose();
-          });
+      ()  => {
+        if( !this.state.listOpen && this.props.onOpen )
+          this.props.onOpen();
+        if ( this.state.listOpen && this.props.onClose )
+          this.props.onClose();
+        }
+      );
     }
     if ( rest.length !== 0 && rest[0] === "clearSelectedId" ) {
        this.setState( prevState => ({
          focusedId: prevState.focusedId,
          selectedId: [],
          idFromWhichBeganSelection: !prevState.idFromWhichBeganSelection ? 0 : prevState.idFromWhichBeganSelection
-      }),
-           () => {
-             if( !this.state.listOpen && this.props.onOpen )
-               this.props.onOpen();
-             if ( this.state.listOpen && this.props.onClose )
-               this.props.onClose();
-           });
+         }),
+         () => {
+           if( !this.state.listOpen && this.props.onOpen )
+             this.props.onOpen();
+           if ( this.state.listOpen && this.props.onClose )
+             this.props.onClose();
+         }
+       );
     }
   };
 
-  selectItem = (e, item) => {
+  selectItemOnClick = (e, item) => {
     const { isMulti, valueKey } = this.props;
     const id = item[valueKey];
     e.preventDefault();
@@ -177,7 +178,7 @@ export default class Select extends Component{
         this.setState(previousState => {
               if ( previousState.listOpen && previousState.focusedId === null ){
                 return {
-                  focusedId: this._getChangedFocusVal(1, previousState.focusedId),
+                  focusedId: previousState.focusedId + 1,
                   selectedId: [1],
                   idFromWhichBeganSelection: 1
                 }
@@ -451,7 +452,7 @@ export default class Select extends Component{
       inputRef: this._inputRef,
       _listRef: ref => this._listRef = ref,
       calculatePosition: !!listParent,
-      selectItem: this.selectItem,
+      selectItemOnClick: this.selectItemOnClick,
       menuContainerStyle: menuContainerStyle ? menuContainerStyle : null
     };
 

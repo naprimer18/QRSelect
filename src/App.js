@@ -15,12 +15,12 @@ class App extends Component {
               data={fruit}
               placeHolder="Select fruit"
               isMulti={true}
-              onClose={ () => { console.log('Close') } }
-              onOpen={ () => { console.log('Open') } }   
+              // onClose={ () => { console.log('Close') } }
+              // onOpen={ () => { console.log('Open') } }
               className ={'ClassDropdown'}
               inputClassName ={'inputClassName'}
               listClassName ={'listClassName'}
-              onChange={(newValue) => {console.log('change', newValue)}}
+              // onChange={(newValue) => {console.log('change', newValue)}}
               valueKey="id"
               labelKey="title"
               maxListHeight={6}
